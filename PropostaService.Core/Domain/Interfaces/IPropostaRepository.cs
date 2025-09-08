@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PropostaService.Core.Domain.Entities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,7 @@ namespace PropostaService.Core.Domain.Interfaces
 {
     public interface IPropostaRepository
     {
+        public Task AddAsync(Proposta proposta);
+        public Task<IEnumerable<Proposta>> GetAllAsync();
     }
 }

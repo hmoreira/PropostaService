@@ -13,8 +13,8 @@ namespace PropostaService.Api
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
-            
+            builder.Services.AddAutoMapper(typeof(Program).Assembly);
+
             builder.Services.AddControllers();
             // Configuração do Entity Framework Core
             var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");

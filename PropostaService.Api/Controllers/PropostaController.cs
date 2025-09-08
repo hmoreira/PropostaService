@@ -1,4 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using PropostaService.Api.DTOs;
+using PropostaService.Core.Application.DTOs;
+using PropostaService.Core.Application.Interfaces;
+using PropostaService.Core.Domain.Entities;
+using System.Threading.Tasks;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -8,36 +14,60 @@ namespace PropostaService.Api.Controllers
     [ApiController]
     public class PropostaController : ControllerBase
     {
-        // GET: api/<PropostaController>
+        private readonly ICriarPropostaUseCase _criarProposta;
+        private readonly IMapper _mapper;
+        private readonly IListarPropostasUseCase _propostasUseCase;
+        private readonly IAlterarStatusPropostaUseCase _alterarStatusProposta;
+        public PropostaController(ICriarPropostaUseCase criarProposta, IListarPropostasUseCase propostasUseCase, 
+                                  IAlterarStatusPropostaUseCase alterarStatusProposta, IMapper mapper)
+        {
+            _criarProposta = criarProposta; 
+            _mapper = mapper;
+            _propostasUseCase = propostasUseCase;   
+            _alterarStatusProposta = alterarStatusProposta;
+        }
+
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<IResult> GetAll()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                await _propostasUseCase.ExecuteAsync();
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex);
+            }
         }
-
-        // GET api/<PropostaController>/5
-        [HttpGet("{id}")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/<PropostaController>
+        
+        
         [HttpPost]
-        public void Post([FromBody] string value)
+        public async Task<IResult> Post([FromBody] CriarPropostaRequestDto proposta)
         {
+            try
+            {
+                await _criarProposta.ExecuteAsync(_mapper.Map<CriarPropostaDto>(proposta));
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex);
+            }
         }
-
-        // PUT api/<PropostaController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/<PropostaController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+        
+        [HttpPut("alterarStatus")]
+        public async Task<IResult> Put([FromBody] AlterarStatusPropostaRequestDto alterarStatusProposta)
+        {            
+            try
+            {
+                await _alterarStatusProposta.ExecuteAsync(alterarStatusProposta.PropostaId, alterarStatusProposta.Status);
+                return Results.Ok();
+            }
+            catch (Exception ex)
+            {
+                return Results.BadRequest(ex);
+            }
         }
     }
 }
