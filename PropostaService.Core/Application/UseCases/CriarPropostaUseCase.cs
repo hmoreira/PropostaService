@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using PropostaService.Core.Application.DTOs;
+using PropostaService.Core.Application.Interfaces;
 
 namespace PropostaService.Core.Application.UseCases
 {
-    public class CriarPropostaUseCase
+    public class CriarPropostaUseCase : ICriarPropostaUseCase
     {
-
+        public Task<Guid> ExecuteAsync(CriarPropostaDto criarPropostaDto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

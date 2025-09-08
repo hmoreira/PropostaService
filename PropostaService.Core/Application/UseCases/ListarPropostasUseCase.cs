@@ -1,5 +1,5 @@
-﻿using PropostaService.Core.Application.Interfaces;
-using PropostaService.Core.Domain.Enums;
+﻿using PropostaService.Core.Application.DTOs;
+using PropostaService.Core.Application.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace PropostaService.Core.Application.UseCases
 {
-    public class AlterarStatusPropostaUseCase : IAlterarStatusPropostaUseCase
+    public class ListarPropostasUseCase : IListarPropostasUseCase
     {
-        public Task ExecuteAsync(Guid propostaId, StatusPropostaEnum novoStatus)
+        public Task<IEnumerable<PropostaListItemDto>> ExecuteAsync()
         {
             throw new NotImplementedException();
         }
