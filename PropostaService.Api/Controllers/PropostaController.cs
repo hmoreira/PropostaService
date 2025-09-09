@@ -1,10 +1,8 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using PropostaService.Api.DTOs;
 using PropostaService.Core.Application.DTOs;
 using PropostaService.Core.Application.Interfaces;
-using PropostaService.Core.Domain.Entities;
-using System.Threading.Tasks;
+using System.Text.Json;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -14,15 +12,13 @@ namespace PropostaService.Api.Controllers
     [ApiController]
     public class PropostaController : ControllerBase
     {
-        private readonly ICriarPropostaUseCase _criarProposta;
-        private readonly IMapper _mapper;
+        private readonly ICriarPropostaUseCase _criarProposta;        
         private readonly IListarPropostasUseCase _propostasUseCase;
         private readonly IAlterarStatusPropostaUseCase _alterarStatusProposta;
         public PropostaController(ICriarPropostaUseCase criarProposta, IListarPropostasUseCase propostasUseCase, 
-                                  IAlterarStatusPropostaUseCase alterarStatusProposta, IMapper mapper)
+                                  IAlterarStatusPropostaUseCase alterarStatusProposta)
         {
-            _criarProposta = criarProposta; 
-            _mapper = mapper;
+            _criarProposta = criarProposta;             
             _propostasUseCase = propostasUseCase;   
             _alterarStatusProposta = alterarStatusProposta;
         }
@@ -43,16 +39,21 @@ namespace PropostaService.Api.Controllers
         
         
         [HttpPost]
-        public async Task<IResult> Post([FromBody] CriarPropostaRequestDto proposta)
+        public async Task<IResult> Post([FromBody] CriarPropostaRequestDto propostaObj)
         {
             try
             {
-                await _criarProposta.ExecuteAsync(_mapper.Map<CriarPropostaDto>(proposta));
+                var criarProposta = new CriarPropostaDto
+                {
+                    ClienteId = propostaObj.ClienteId,
+                    Valor = propostaObj.Valor
+                };
+                await _criarProposta.ExecuteAsync(criarProposta);
                 return Results.Ok();
             }
             catch (Exception ex)
             {
-                return Results.BadRequest(ex);
+                return Results.BadRequest(ex.Message);
             }
         }
         

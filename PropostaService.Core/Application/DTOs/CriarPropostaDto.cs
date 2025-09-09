@@ -8,7 +8,7 @@ namespace PropostaService.Core.Application.DTOs
 {
     public class CriarPropostaDto
     {
-        public Guid ClienteId { get; private set; } 
-        public decimal Valor { get; private set; }
+        public Guid ClienteId { get; set; } 
+        public decimal Valor { get; set; }
     }
 }

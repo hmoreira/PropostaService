@@ -4,6 +4,7 @@ using PropostaService.Adapters.Persistence;
 using PropostaService.Core.Application.Interfaces;
 using PropostaService.Core.Application.UseCases;
 using PropostaService.Core.Domain.Interfaces;
+using System.Text.Json;
 
 namespace PropostaService.Api
 {
@@ -12,8 +13,6 @@ namespace PropostaService.Api
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
-
-            builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
             builder.Services.AddControllers();
             // Configuração do Entity Framework Core
@@ -24,20 +23,9 @@ namespace PropostaService.Api
             builder.Services.AddScoped<IPropostaRepository, PropostaRepository>();
             builder.Services.AddScoped<ICriarPropostaUseCase, CriarPropostaUseCase>();
             builder.Services.AddScoped<IListarPropostasUseCase, ListarPropostasUseCase>();
-            builder.Services.AddScoped<IAlterarStatusPropostaUseCase, AlterarStatusPropostaUseCase>();
+            builder.Services.AddScoped<IAlterarStatusPropostaUseCase, AlterarStatusPropostaUseCase>();            
 
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
-
-            var app = builder.Build();
-
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+            var app = builder.Build();            
 
             app.UseHttpsRedirection();
             app.UseAuthorization();

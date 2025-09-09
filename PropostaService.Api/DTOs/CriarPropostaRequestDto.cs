@@ -1,8 +1,12 @@
-﻿namespace PropostaService.Api.DTOs
+﻿using System.Text.Json.Serialization;
+
+namespace PropostaService.Api.DTOs
 {
     public class CriarPropostaRequestDto
     {
-        public Guid ClienteId { get; private set; } 
-        public decimal Valor { get; private set; }
+        //[JsonPropertyName("clienteId")]
+        public Guid ClienteId { get; set; }
+        //[JsonPropertyName("valor")]
+        public decimal Valor { get; set; }
     }
 }
