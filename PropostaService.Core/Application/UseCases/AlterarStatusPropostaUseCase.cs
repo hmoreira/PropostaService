@@ -1,18 +1,20 @@
 ﻿using PropostaService.Core.Application.Interfaces;
 using PropostaService.Core.Domain.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using PropostaService.Core.Domain.Interfaces;
 
 namespace PropostaService.Core.Application.UseCases
 {
     public class AlterarStatusPropostaUseCase : IAlterarStatusPropostaUseCase
     {
-        public Task ExecuteAsync(Guid propostaId, StatusPropostaEnum novoStatus)
+        private readonly IPropostaRepository _propostaRepository;
+        public AlterarStatusPropostaUseCase(IPropostaRepository propostaRepository)
         {
-            throw new NotImplementedException();
+            _propostaRepository = propostaRepository;
+        }
+
+        public async Task ExecuteAsync(Guid propostaId, StatusPropostaEnum novoStatus)
+        {
+            await _propostaRepository.UpdateStatusAsync(propostaId, novoStatus);
         }
     }
 }

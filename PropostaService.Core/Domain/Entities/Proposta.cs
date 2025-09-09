@@ -10,10 +10,10 @@ namespace PropostaService.Core.Domain.Entities
 {
     public class Proposta
     {
-        public Guid Id { get; private set; }
-        public Guid ClienteId { get; private set; } // Apenas o ID é suficiente para o domínio da proposta
-        public decimal Valor { get; private set; }
-        public StatusPropostaEnum Status { get; private set; } // Enum: EmAnalise, Aprovada, Rejeitada
+        public Guid Id { get; set; }
+        public Guid ClienteId { get; set; } // Apenas o ID é suficiente para o domínio da proposta
+        public decimal Valor { get; set; }
+        public StatusPropostaEnum Status { get; set; } // Enum: EmAnalise, Aprovada, Rejeitada
 
         // Construtor privado para forçar o uso de métodos de fábrica ou construtores de fábrica
         private Proposta(Guid id, Guid clienteId, decimal valor)

@@ -1,4 +1,5 @@
 ﻿using PropostaService.Core.Domain.Entities;
+using PropostaService.Core.Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,5 +12,6 @@ namespace PropostaService.Core.Domain.Interfaces
     {
         public Task AddAsync(Proposta proposta);
         public Task<IEnumerable<Proposta>> GetAllAsync();
+        public Task UpdateStatusAsync(Guid propostaId, StatusPropostaEnum statusProposta); 
     }
 }

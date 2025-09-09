@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace PropostaService.Api.DTOs
+﻿namespace PropostaService.Api.DTOs
 {
     public class CriarPropostaRequestDto
     {

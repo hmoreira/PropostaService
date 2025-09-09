@@ -27,9 +27,8 @@ namespace PropostaService.Api.Controllers
         public async Task<IResult> GetAll()
         {
             try
-            {
-                await _propostasUseCase.ExecuteAsync();
-                return Results.Ok();
+            {                
+                return Results.Ok(await _propostasUseCase.ExecuteAsync());
             }
             catch (Exception ex)
             {

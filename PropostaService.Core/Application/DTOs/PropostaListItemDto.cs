@@ -9,9 +9,9 @@ namespace PropostaService.Core.Application.DTOs
 {
     public class PropostaListItemDto
     {
-        public Guid Id { get; private set; }
-        public Guid ClienteId { get; private set; } 
-        public decimal Valor { get; private set; }
-        public StatusPropostaEnum Status { get; private set; } // Enum: EmAnalise, Aprovada, Rejeitada
+        public Guid Id { get; set; }
+        public Guid ClienteId { get; set; } 
+        public decimal Valor { get; set; }
+        public StatusPropostaEnum Status { get; set; } // Enum: EmAnalise, Aprovada, Rejeitada
     }
 }
