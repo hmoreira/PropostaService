@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PropostaService.Adapters.Data;
+using PropostaService.Core.Application.DTOs;
 using PropostaService.Core.Domain.Entities;
 using PropostaService.Core.Domain.Enums;
 using PropostaService.Core.Domain.Interfaces;
@@ -28,9 +29,18 @@ namespace PropostaService.Adapters.Persistence
 
         public async Task<Proposta?> GetAsync(Guid propostaId)
         {
+            return await _context.Propostas.FindAsync(propostaId);            
+        }
+
+        public async Task<PropostaResponseDto?> GetStatusAsync(Guid propostaId)
+        {
             var ret = await _context.Propostas.FindAsync(propostaId);
             if (ret != null)
-                return ret;
+                return new PropostaResponseDto
+                {
+                    PropostaId = ret.Id,
+                    Status = ret.Status
+                };
             else
                 return null;
         }
@@ -48,6 +58,11 @@ namespace PropostaService.Adapters.Persistence
         {
             _context.Propostas.Update(proposta);
             await _context.SaveChangesAsync();
+        }
+
+        Task<Proposta?> IPropostaRepository.GetAsync(Guid propostaId)
+        {
+            throw new NotImplementedException();
         }
     }
 }

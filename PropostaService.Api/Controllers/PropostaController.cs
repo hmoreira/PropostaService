@@ -16,15 +16,15 @@ namespace PropostaService.Api.Controllers
         private readonly ICriarPropostaUseCase _criarProposta;        
         private readonly IListarPropostasUseCase _propostasUseCase;
         private readonly IAlterarStatusPropostaUseCase _alterarStatusProposta;
-        private readonly IObtemStatusPropostaUseCase _obtemStatusProposta;
+        private readonly IObtemPropostaUseCase _obtemProposta;
         public PropostaController(ICriarPropostaUseCase criarProposta, IListarPropostasUseCase propostasUseCase, 
                                   IAlterarStatusPropostaUseCase alterarStatusProposta,
-                                  IObtemStatusPropostaUseCase obtemStatusProposta)
+                                  IObtemPropostaUseCase obtemProposta)
         {
             _criarProposta = criarProposta;             
             _propostasUseCase = propostasUseCase;   
             _alterarStatusProposta = alterarStatusProposta;
-            _obtemStatusProposta = obtemStatusProposta;
+            _obtemProposta = obtemProposta;
         }
 
         [HttpGet]
@@ -40,16 +40,17 @@ namespace PropostaService.Api.Controllers
             }
         }
 
-        [HttpGet("{id}/status")]
-        public async Task<IResult> GetStatusProposta(Guid id)
+        [HttpGet("{propostaId}")]
+        public async Task<IResult> ObterProposta(string propostaId)
         {
             try
             {
-                var ret = await _obtemStatusProposta.ExecuteAsync(id);
-                if (ret == null)
-                    throw new DomainException($"A proposta {id} não pode ser encontrada");
-                else
-                    return Results.Ok(ret);
+                Guid propostaIdG;
+                if (!Guid.TryParse(propostaId, out propostaIdG))
+                    return Results.BadRequest("Id da proposta inválido.");
+
+                var ret = await _obtemProposta.ExecuteAsync(propostaIdG);
+                return Results.Ok(ret);
             }
             catch (Exception ex)
             {
