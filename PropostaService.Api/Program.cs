@@ -23,7 +23,8 @@ namespace PropostaService.Api
             builder.Services.AddScoped<IPropostaRepository, PropostaRepository>();
             builder.Services.AddScoped<ICriarPropostaUseCase, CriarPropostaUseCase>();
             builder.Services.AddScoped<IListarPropostasUseCase, ListarPropostasUseCase>();
-            builder.Services.AddScoped<IAlterarStatusPropostaUseCase, AlterarStatusPropostaUseCase>();            
+            builder.Services.AddScoped<IAlterarStatusPropostaUseCase, AlterarStatusPropostaUseCase>();
+            builder.Services.AddScoped<IObtemStatusPropostaUseCase, ObtemStatusPropostaUseCase>();
 
             var app = builder.Build();            
 

@@ -26,6 +26,15 @@ namespace PropostaService.Adapters.Persistence
             return await _context.Propostas.ToListAsync();
         }
 
+        public async Task<StatusPropostaEnum?> ObtemStatusPropostaAsync(Guid propostaId)
+        {
+            var ret = await _context.Propostas.FindAsync(propostaId);
+            if (ret != null)
+                return ret.Status;
+            else
+                return (StatusPropostaEnum?)null;
+        }
+
         public async Task UpdateStatusAsync(Guid propostaId, StatusPropostaEnum statusProposta)
         {
             var ret = await _context.Propostas.FindAsync(propostaId);
