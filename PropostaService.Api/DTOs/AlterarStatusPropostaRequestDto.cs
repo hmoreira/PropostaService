@@ -4,7 +4,7 @@ namespace PropostaService.Api.DTOs
 {
     public class AlterarStatusPropostaRequestDto
     {
-        public Guid PropostaId { get; set; }
+        public required string PropostaId { get; set; }
         public StatusPropostaEnum Status { get; set; }
     }
 }

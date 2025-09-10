@@ -26,6 +26,15 @@ namespace PropostaService.Adapters.Persistence
             return await _context.Propostas.ToListAsync();
         }
 
+        public async Task<Proposta?> GetAsync(Guid propostaId)
+        {
+            var ret = await _context.Propostas.FindAsync(propostaId);
+            if (ret != null)
+                return ret;
+            else
+                return null;
+        }
+
         public async Task<StatusPropostaEnum?> ObtemStatusPropostaAsync(Guid propostaId)
         {
             var ret = await _context.Propostas.FindAsync(propostaId);
@@ -35,15 +44,10 @@ namespace PropostaService.Adapters.Persistence
                 return (StatusPropostaEnum?)null;
         }
 
-        public async Task UpdateStatusAsync(Guid propostaId, StatusPropostaEnum statusProposta)
+        public async Task UpdateAsync(Proposta proposta)
         {
-            var ret = await _context.Propostas.FindAsync(propostaId);
-            if (ret != null)
-            {
-                ret.Status = statusProposta;
-                await _context.SaveChangesAsync();
-            }
-            else throw new Exception("Proposta não encontrada");
+            _context.Propostas.Update(proposta);
+            await _context.SaveChangesAsync();
         }
     }
 }

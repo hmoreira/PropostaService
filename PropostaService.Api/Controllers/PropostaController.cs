@@ -2,6 +2,7 @@
 using PropostaService.Api.DTOs;
 using PropostaService.Core.Application.DTOs;
 using PropostaService.Core.Application.Interfaces;
+using PropostaService.Core.Domain.Entities;
 using PropostaService.Core.Domain.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -61,9 +62,13 @@ namespace PropostaService.Api.Controllers
         {
             try
             {
+                Guid clienteIdG;
+                if (!Guid.TryParse(propostaObj.ClienteId, out clienteIdG))
+                    return Results.BadRequest("Id do cliente inválido.");
+
                 var criarProposta = new CriarPropostaDto
                 {
-                    ClienteId = propostaObj.ClienteId,
+                    ClienteId = clienteIdG,
                     Valor = propostaObj.Valor
                 };
                 await _criarProposta.ExecuteAsync(criarProposta);
@@ -80,7 +85,11 @@ namespace PropostaService.Api.Controllers
         {            
             try
             {
-                await _alterarStatusProposta.ExecuteAsync(alterarStatusProposta.PropostaId, alterarStatusProposta.Status);
+                Guid propostaIdG;
+                if (!Guid.TryParse(alterarStatusProposta.PropostaId, out propostaIdG))
+                    return Results.BadRequest("Id da proposta inválido.");
+                
+                await _alterarStatusProposta.ExecuteAsync(propostaIdG, alterarStatusProposta.Status);
                 return Results.Ok();
             }
             catch (Exception ex)

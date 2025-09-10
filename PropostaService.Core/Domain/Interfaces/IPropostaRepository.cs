@@ -12,7 +12,8 @@ namespace PropostaService.Core.Domain.Interfaces
     {
         public Task AddAsync(Proposta proposta);
         public Task<IEnumerable<Proposta>> GetAllAsync();
+        public Task<Proposta?> GetAsync(Guid propostaId);
         public Task<StatusPropostaEnum?> ObtemStatusPropostaAsync(Guid propostaId);
-        public Task UpdateStatusAsync(Guid propostaId, StatusPropostaEnum statusProposta); 
+        public Task UpdateAsync(Proposta proposta); 
     }
 }
