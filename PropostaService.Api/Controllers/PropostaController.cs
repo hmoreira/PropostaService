@@ -2,8 +2,6 @@
 using PropostaService.Api.DTOs;
 using PropostaService.Core.Application.DTOs;
 using PropostaService.Core.Application.Interfaces;
-using PropostaService.Core.Domain.Entities;
-using PropostaService.Core.Domain.Exceptions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
