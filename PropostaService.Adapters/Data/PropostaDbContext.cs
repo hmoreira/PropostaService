@@ -25,7 +25,7 @@ namespace PropostaService.Adapters.Data
             modelBuilder.Entity<Proposta>(entity =>
             {
                 entity.HasKey(p => p.Id);
-                entity.Property(p => p.ClienteId).IsRequired();
+                //entity.Property(p => p.ClienteId).IsRequired();
                 entity.Property(p => p.Valor).IsRequired();
                 entity.Property(p => p.Status).IsRequired();
             });

@@ -25,7 +25,7 @@ namespace PropostaService.Core.Application.UseCases
             foreach (var item in propostas)
                 ret.Add(new PropostaListItemDto
                 {
-                    ClienteId = item.ClienteId,
+                    //ClienteId = item.ClienteId,
                     Id = item.Id,
                     Status = item.Status,
                     Valor = item.Valor
