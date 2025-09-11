@@ -59,10 +59,5 @@ namespace PropostaService.Adapters.Persistence
             _context.Propostas.Update(proposta);
             await _context.SaveChangesAsync();
         }
-
-        Task<Proposta?> IPropostaRepository.GetAsync(Guid propostaId)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
