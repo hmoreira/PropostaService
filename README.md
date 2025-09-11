@@ -3,3 +3,4 @@
 - O script deve ser executado utilizando o BD PropostaSeguro;
 - O SDK do **.NET 8** deve ser instalado antes da execução do serviço (https://dotnet.microsoft.com/pt-br/download);
 - Para execução do serviço abrir o terminal na raiz da pasta PropostaService.Api e executar o comando **dotnet run**
+- Para execução dos testes unitários abrir o terminal na raiz do repositório e executar o comando **dotnet test**
