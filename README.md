@@ -1,5 +1,5 @@
-- O serviço foi criado utilizando Visual Studio 2022 e SQL Server LocalDB (disponivel na instalacao do VS);
-- O BD PropostaSeguro deve ser criado antes da execução do script proposta_db_script.sql;
+- O serviço foi criado utilizando **Visual Studio 2022** e **SQL Server LocalDB** (disponivel na instalacao do VS);
+- O BD **PropostaSeguro** deve ser criado antes da execução do script proposta_db_script.sql;
 - O script deve ser executado utilizando o BD PropostaSeguro;
-- O SDK do .NET 8 deve ser instalado antes da execução do serviço (https://dotnet.microsoft.com/pt-br/download);
-- Para execução do serviço abrir o terminal na raiz da pasta PropostaService.Api e executar o comando dotnet run
+- O SDK do **.NET 8** deve ser instalado antes da execução do serviço (https://dotnet.microsoft.com/pt-br/download);
+- Para execução do serviço abrir o terminal na raiz da pasta PropostaService.Api e executar o comando **dotnet run**
