@@ -5,7 +5,6 @@ using PropostaService.Core.Domain.Entities;
 using PropostaService.Core.Domain.Enums;
 using PropostaService.Core.Domain.Exceptions;
 using PropostaService.Core.Domain.Interfaces;
-using Xunit;
 
 namespace PropostaService.Tests.Unit
 {
@@ -13,8 +12,7 @@ namespace PropostaService.Tests.Unit
     {        
         [Fact]
         public async Task CriarProposta_DeveAdicionarPropostaCorretamente_AoRepositorio()
-        {
-            // Arrange
+        {            
             var propostaRepositoryMock = new Mock<IPropostaRepository>();
             var useCase = new CriarPropostaUseCase(propostaRepositoryMock.Object);
             var criarPropostaDto = new CriarPropostaDto
@@ -22,42 +20,35 @@ namespace PropostaService.Tests.Unit
                 ClienteId = Guid.NewGuid(),
                 Valor = 1500.00m
             };
-
-            // Act
+            
             await useCase.ExecuteAsync(criarPropostaDto);
-
-            // Assert
+            
             propostaRepositoryMock.Verify(repo => repo.AddAsync(It.IsAny<Proposta>()), Times.Once);
         }        
 
         [Fact]
         public async Task AlterarStatus_DeveChamarMetodoAlterarStatus_EAtualizarRepositorio()
-        {
-            // Arrange
+        {            
             var propostaId = Guid.NewGuid();
             var propostaExistente = Proposta.Criar(propostaId, 1000m);
             var propostaRepositoryMock = new Mock<IPropostaRepository>();
             propostaRepositoryMock.Setup(repo => repo.GetAsync(propostaId)).ReturnsAsync(propostaExistente);
             var useCase = new AlterarStatusPropostaUseCase(propostaRepositoryMock.Object);
-
-            // Act
+            
             await useCase.ExecuteAsync(propostaId, StatusPropostaEnum.Aprovada);
-
-            // Assert
+            
             Assert.Equal(StatusPropostaEnum.Aprovada, propostaExistente.Status);
             propostaRepositoryMock.Verify(repo => repo.UpdateAsync(It.IsAny<Proposta>()), Times.Once);
         }
 
         [Fact]
         public async Task AlterarStatus_DeveLancarExcecao_QuandoPropostaNaoForEncontrada()
-        {
-            // Arrange
+        {            
             var propostaId = Guid.NewGuid();
-            var propostaRepositoryMock = new Mock<IPropostaRepository>();
-            propostaRepositoryMock.Setup(repo => repo.GetAsync(propostaId)).ReturnsAsync((Proposta)null);
+            var propostaRepositoryMock = new Mock<IPropostaRepository>();            
+            propostaRepositoryMock.Setup(repo => repo.GetStatusAsync(propostaId)).Returns(Task.FromResult<PropostaResponseDto?>(null));
             var useCase = new AlterarStatusPropostaUseCase(propostaRepositoryMock.Object);
-
-            // Act & Assert
+            
             await Assert.ThrowsAsync<DomainException>(() =>
                 useCase.ExecuteAsync(propostaId, StatusPropostaEnum.Aprovada));
 
@@ -66,8 +57,7 @@ namespace PropostaService.Tests.Unit
 
         [Fact]
         public async Task ListarPropostas_DeveRetornarListaDePropostas_CorretamenteMapeadas()
-        {
-            // Arrange
+        {            
             var propostaRepositoryMock = new Mock<IPropostaRepository>();
             var propostasDoRepo = new List<Proposta>
             {
@@ -76,11 +66,9 @@ namespace PropostaService.Tests.Unit
             };
             propostaRepositoryMock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(propostasDoRepo);
             var useCase = new ListarPropostasUseCase(propostaRepositoryMock.Object);
-
-            // Act
+            
             var propostasDto = await useCase.ExecuteAsync();
-
-            // Assert
+            
             Assert.Equal(2, propostasDto.Count());
             Assert.Contains(propostasDto, dto => dto.Valor == 100m);
             Assert.Contains(propostasDto, dto => dto.Valor == 200m);
@@ -88,26 +76,20 @@ namespace PropostaService.Tests.Unit
 
         [Fact]
         public async Task ObtemProposta_DeveRetornarProposta_QuandoEncontrada()
-        {
-            // Arrange
+        {            
             var propostaId = Guid.NewGuid();
             var propostaDtoMock = new PropostaResponseDto
             {
                 PropostaId = propostaId,
                 Status = StatusPropostaEnum.EmAnalise
             };
-            var propostaRepositoryMock = new Mock<IPropostaRepository>();
 
-            // Configuração correta do mock:
-            // O método GetStatusAsync deve retornar o DTO
+            var propostaRepositoryMock = new Mock<IPropostaRepository>();            
             propostaRepositoryMock.Setup(repo => repo.GetStatusAsync(propostaId)).ReturnsAsync(propostaDtoMock);
 
-            var useCase = new ObtemPropostaUseCase(propostaRepositoryMock.Object);
-
-            // Act
+            var useCase = new ObtemPropostaUseCase(propostaRepositoryMock.Object);            
             var resultado = await useCase.ExecuteAsync(propostaId);
-
-            // Assert
+            
             Assert.NotNull(resultado);
             Assert.Equal(propostaId, resultado.PropostaId);
             propostaRepositoryMock.Verify(repo => repo.GetStatusAsync(propostaId), Times.Once);
@@ -115,19 +97,15 @@ namespace PropostaService.Tests.Unit
 
         [Fact]
         public async Task ObtemProposta_DeveRetornarNull_QuandoNaoEncontrada()
-        {
-            // Arrange
+        {            
             var propostaId = Guid.NewGuid();
             var propostaRepositoryMock = new Mock<IPropostaRepository>();
             
             propostaRepositoryMock.Setup(repo => repo.GetStatusAsync(propostaId)).ReturnsAsync((PropostaResponseDto?)null);
 
-            var useCase = new ObtemPropostaUseCase(propostaRepositoryMock.Object);
-
-            // Act
+            var useCase = new ObtemPropostaUseCase(propostaRepositoryMock.Object);            
             var resultado = await useCase.ExecuteAsync(propostaId);
-
-            // Assert
+            
             Assert.Null(resultado);
             propostaRepositoryMock.Verify(repo => repo.GetStatusAsync(propostaId), Times.Once);
         }
