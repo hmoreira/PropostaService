@@ -61,13 +61,8 @@ namespace PropostaService.Api.Controllers
         {
             try
             {
-                Guid clienteIdG;
-                if (!Guid.TryParse(propostaObj.ClienteId, out clienteIdG))
-                    return Results.BadRequest("Id do cliente inválido.");
-
                 var criarProposta = new CriarPropostaDto
                 {
-                    ClienteId = clienteIdG,
                     Valor = propostaObj.Valor
                 };
                 await _criarProposta.ExecuteAsync(criarProposta);

@@ -25,15 +25,11 @@ namespace PropostaService.Core.Domain.Entities
             Status = StatusPropostaEnum.EmAnalise; // Status inicial padrão
         }
 
-        public static Proposta Criar(Guid clienteId, decimal valor)
-        {
-            // Validações de negócio antes de criar
-            //if (clienteId == Guid.Empty)
-            //    throw new DomainException("O id do cliente é obrigatório.");            
+        public static Proposta Criar(decimal valor)
+        {            
             if (valor <= 0)
                 throw new DomainException("O valor da proposta deve ser positivo.");
-
-            //return new Proposta(Guid.NewGuid(), clienteId, valor);
+            
             return new Proposta(Guid.NewGuid(), valor);
         }
 

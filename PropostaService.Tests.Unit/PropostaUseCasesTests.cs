@@ -17,7 +17,6 @@ namespace PropostaService.Tests.Unit
             var useCase = new CriarPropostaUseCase(propostaRepositoryMock.Object);
             var criarPropostaDto = new CriarPropostaDto
             {
-                ClienteId = Guid.NewGuid(),
                 Valor = 1500.00m
             };
             
@@ -30,7 +29,7 @@ namespace PropostaService.Tests.Unit
         public async Task AlterarStatus_DeveChamarMetodoAlterarStatus_EAtualizarRepositorio()
         {            
             var propostaId = Guid.NewGuid();
-            var propostaExistente = Proposta.Criar(propostaId, 1000m);
+            var propostaExistente = Proposta.Criar(1000m);
             var propostaRepositoryMock = new Mock<IPropostaRepository>();
             propostaRepositoryMock.Setup(repo => repo.GetAsync(propostaId)).ReturnsAsync(propostaExistente);
             var useCase = new AlterarStatusPropostaUseCase(propostaRepositoryMock.Object);
@@ -61,8 +60,8 @@ namespace PropostaService.Tests.Unit
             var propostaRepositoryMock = new Mock<IPropostaRepository>();
             var propostasDoRepo = new List<Proposta>
             {
-                Proposta.Criar(Guid.NewGuid(), 100m),
-                Proposta.Criar(Guid.NewGuid(), 200m)
+                Proposta.Criar(100m),
+                Proposta.Criar(200m)
             };
             propostaRepositoryMock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(propostasDoRepo);
             var useCase = new ListarPropostasUseCase(propostaRepositoryMock.Object);

@@ -16,7 +16,7 @@ namespace PropostaService.Core.Application.UseCases
 
         public async Task ExecuteAsync(CriarPropostaDto criarPropostaDto)
         {            
-            var proposta = Proposta.Criar(criarPropostaDto.ClienteId, criarPropostaDto.Valor);
+            var proposta = Proposta.Criar(criarPropostaDto.Valor);
             
             await _propostaRepository.AddAsync(proposta);            
 
